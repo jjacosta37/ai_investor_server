@@ -1,0 +1,11 @@
+# Django Chat App Requirements
+# Minimal dependencies for the reusable django_chat app
+
+# Core Django framework
+Django>=4.2,<5.0
+
+# Django REST Framework for API functionality
+djangorestframework>=3.14.0
+
+# Required for CORS support (optional but recommended for frontend integration)
+django-cors-headers>=4.0.0 

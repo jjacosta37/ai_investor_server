@@ -1,0 +1,215 @@
+{
+  "info": {
+    "_postman_id": "django-chat-api-collection",
+    "name": "Django Chat API",
+    "description": "Complete API collection for Django Chat App with all endpoints for chat and message management. Uses UUID primary keys for better scalability and security.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Chat Management",
+      "item": [
+        {
+          "name": "Create Chat",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"My New Chat\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/chats/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", ""]
+            },
+            "description": "Create a new chat conversation. Title is optional - if not provided, it will be auto-generated from the first message."
+          },
+          "response": []
+        },
+        {
+          "name": "List All Chats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chats/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", ""]
+            },
+            "description": "Get a list of all active (non-archived) chats with preview information."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Chat Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chats/{{chat_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", "{{chat_id}}", ""]
+            },
+            "description": "Get detailed information about a specific chat including all messages."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Chat",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Updated Chat Title\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/chats/{{chat_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", "{{chat_id}}", ""]
+            },
+            "description": "Update chat information (primarily the title). Supports partial updates."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Chat (Archive)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chats/{{chat_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", "{{chat_id}}", ""]
+            },
+            "description": "Archive a chat (soft delete). The chat will no longer appear in the list but data is preserved."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing chat conversations"
+    },
+    {
+      "name": "Message Management",
+      "item": [
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"Hello, how are you today?\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/chats/{{chat_id}}/messages/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", "{{chat_id}}", "messages", ""]
+            },
+            "description": "Send a message to the chat and receive an AI response. Returns both the user message and AI response."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Chat Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chats/{{chat_id}}/messages/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", "{{chat_id}}", "messages", ""]
+            },
+            "description": "Get all messages for a specific chat in chronological order."
+          },
+          "response": []
+        },
+        {
+          "name": "Clear Chat Messages",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chats/{{chat_id}}/messages/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chats", "{{chat_id}}", "messages", ""]
+            },
+            "description": "Clear all messages from a chat and reset the title. The chat remains but becomes empty."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing messages within chats"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    },
+    {
+      "key": "chat_id",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "type": "string",
+      "description": "UUID of the chat (replace with actual chat UUID from Create Chat response)"
+    }
+  ]
+}
