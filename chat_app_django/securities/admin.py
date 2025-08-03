@@ -1,3 +1,20 @@
 from django.contrib import admin
+from .models import (
+    Security,
+    SecurityFundamentals,
+    SmartWatchlist,
+    WatchlistItem,
+    Holding,
+    NewsSource,
+    SecurityNews,
+    Transaction,
+)
 
-# Register your models here.
+admin.site.register(Security)
+admin.site.register(SecurityFundamentals)
+admin.site.register(SmartWatchlist)
+admin.site.register(WatchlistItem)
+admin.site.register(Holding)
+admin.site.register(NewsSource)
+admin.site.register(SecurityNews)
+admin.site.register(Transaction)
