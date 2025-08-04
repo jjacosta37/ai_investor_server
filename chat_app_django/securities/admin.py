@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import (
     Security,
     SecurityFundamentals,
-    SmartWatchlist,
     WatchlistItem,
     Holding,
     NewsSource,
@@ -12,7 +11,6 @@ from .models import (
 
 admin.site.register(Security)
 admin.site.register(SecurityFundamentals)
-admin.site.register(SmartWatchlist)
 admin.site.register(WatchlistItem)
 admin.site.register(Holding)
 admin.site.register(NewsSource)

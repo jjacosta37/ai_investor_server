@@ -106,53 +106,49 @@ class SecurityFundamentals(models.Model):
         return f"Fundamentals for {self.security.symbol}"
 
 
-class SmartWatchlist(models.Model):
-    """User's smart watchlist"""
+# class SmartWatchlist(models.Model):
+#     """User's smart watchlist"""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watchlists")
-    name = models.CharField(max_length=100, default="My Watchlist")
-    description = models.TextField(blank=True)
+#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watchlists")
+#     name = models.CharField(max_length=100, default="My Watchlist")
+#     description = models.TextField(blank=True)
 
-    # Settings
-    is_default = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+#     # Settings
+#     is_default = models.BooleanField(default=False)
+#     is_active = models.BooleanField(default=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ["-is_default", "-updated_at"]
-        unique_together = ["user", "name"]
+#     class Meta:
+#         ordering = ["-is_default", "-updated_at"]
+#         unique_together = ["user", "name"]
 
-    def __str__(self):
-        return f"{self.user.username}'s {self.name}"
+#     def __str__(self):
+#         return f"{self.user.username}'s {self.name}"
 
 
 class WatchlistItem(models.Model):
     """Individual items in a watchlist"""
 
-    watchlist = models.ForeignKey(
-        SmartWatchlist, on_delete=models.CASCADE, related_name="items"
+    # watchlist = models.ForeignKey(
+    #     SmartWatchlist, on_delete=models.CASCADE, related_name="items"
+    # )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="watchlistitems"
     )
     security = models.ForeignKey(Security, on_delete=models.CASCADE)
 
-    # User preferences for this item
-    notes = models.TextField(blank=True)
-    target_price = models.DecimalField(
-        max_digits=12, decimal_places=4, null=True, blank=True
-    )
-
     # Tracking
     added_at = models.DateTimeField(auto_now_add=True)
-    position = models.PositiveIntegerField(default=0)  # For ordering
 
     class Meta:
-        unique_together = ["watchlist", "security"]
-        ordering = ["position", "added_at"]
+        unique_together = ["user", "security"]
+        ordering = ["added_at"]
 
     def __str__(self):
-        return f"{self.security.symbol} in {self.watchlist.name}"
+        return f"{self.security.symbol} in {self.user.username}'s watchlist"
 
 
 class Holding(models.Model):
