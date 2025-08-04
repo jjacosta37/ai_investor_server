@@ -22,4 +22,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("django_chat.urls")),
     path("auth/", include("firebase_auth.urls")),
+    path("api/", include("securities.urls")),
 ]

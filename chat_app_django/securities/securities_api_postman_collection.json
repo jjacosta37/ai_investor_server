@@ -1,0 +1,282 @@
+{
+  "info": {
+    "_postman_id": "securities-api-collection",
+    "name": "Securities API",
+    "description": "Complete API collection for Securities App with endpoints for stock and ETF data management. Includes filtering, search, and detailed security information.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Securities Management",
+      "item": [
+        {
+          "name": "List All Securities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", ""]
+            },
+            "description": "Get a list of all active securities with basic information including current price, day change percentage, and market cap."
+          },
+          "response": []
+        },
+        {
+          "name": "List Securities - Filtered by Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/?type=ETF",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", ""],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "ETF",
+                  "description": "Filter by security type (CS, ETF, ADRC)"
+                }
+              ]
+            },
+            "description": "Get securities filtered by type. Available types: CS (Common Stock), ETF (Exchange Traded Fund), ADRC (American Depository Receipt)."
+          },
+          "response": []
+        },
+        {
+          "name": "List Securities - Filtered by Exchange",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/?exchange=XNYS",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", ""],
+              "query": [
+                {
+                  "key": "exchange",
+                  "value": "XNYS",
+                  "description": "Filter by exchange (XNYS, XNAS, ARCX, etc.)"
+                }
+              ]
+            },
+            "description": "Get securities filtered by exchange. Common exchanges: XNYS (NYSE), XNAS (NASDAQ), ARCX (NYSE Arca)."
+          },
+          "response": []
+        },
+        {
+          "name": "Search Securities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/?search=AAPL",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", ""],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "AAPL",
+                  "description": "Search by symbol or company name"
+                }
+              ]
+            },
+            "description": "Search securities by symbol or company name. Case-insensitive partial matching."
+          },
+          "response": []
+        },
+        {
+          "name": "List Securities - Paginated",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/?limit=50&offset=0&ordering=symbol",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", ""],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Number of results to return"
+                },
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip"
+                },
+                {
+                  "key": "ordering",
+                  "value": "symbol",
+                  "description": "Order by: symbol, name, security_type (add - for descending)"
+                }
+              ]
+            },
+            "description": "Get paginated list of securities with custom ordering. Available ordering fields: symbol, name, security_type (prefix with - for descending)."
+          },
+          "response": []
+        },
+        {
+          "name": "List Securities - Combined Filters",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/?type=CS&exchange=XNYS&search=tech&limit=25&ordering=name",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", ""],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "CS",
+                  "description": "Filter by security type"
+                },
+                {
+                  "key": "exchange",
+                  "value": "XNYS",
+                  "description": "Filter by exchange"
+                },
+                {
+                  "key": "search",
+                  "value": "tech",
+                  "description": "Search term"
+                },
+                {
+                  "key": "limit",
+                  "value": "25",
+                  "description": "Limit results"
+                },
+                {
+                  "key": "ordering",
+                  "value": "name",
+                  "description": "Order by name"
+                }
+              ]
+            },
+            "description": "Demonstrate combining multiple filters: type, exchange, search, pagination, and ordering."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Security Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/{{security_symbol}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", "{{security_symbol}}", ""]
+            },
+            "description": "Get detailed information about a specific security including all fundamental data, pricing, and company information."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Security Details - AAPL Example",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/AAPL/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", "AAPL", ""]
+            },
+            "description": "Example request to get Apple Inc. (AAPL) detailed information."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Security Details - TSLA Example",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/securities/TSLA/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "securities", "TSLA", ""]
+            },
+            "description": "Example request to get Tesla Inc. (TSLA) detailed information."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing and retrieving securities data"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string",
+      "description": "Base URL for the Django development server"
+    },
+    {
+      "key": "security_symbol",
+      "value": "AAPL",
+      "type": "string",
+      "description": "Stock symbol for security detail requests (e.g., AAPL, TSLA, MSFT)"
+    }
+  ]
+}
