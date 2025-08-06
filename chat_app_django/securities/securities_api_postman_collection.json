@@ -206,47 +206,96 @@
             "description": "Get detailed information about a specific security including all fundamental data, pricing, and company information."
           },
           "response": []
-        },
+        }
+      ],
+      "description": "Endpoints for managing and retrieving securities data"
+    },
+    {
+      "name": "Watchlist Management",
+      "item": [
         {
-          "name": "Get Security Details - AAPL Example",
+          "name": "Get User Watchlist",
           "request": {
             "method": "GET",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "description": "Firebase JWT token for authentication"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/securities/AAPL/",
+              "raw": "{{base_url}}/api/watchlist/",
               "host": ["{{base_url}}"],
-              "path": ["api", "securities", "AAPL", ""]
+              "path": ["api", "watchlist", ""]
             },
-            "description": "Example request to get Apple Inc. (AAPL) detailed information."
+            "description": "Get all watchlist items for the authenticated user. Returns securities with full details including current price and fundamentals."
           },
           "response": []
         },
         {
-          "name": "Get Security Details - TSLA Example",
+          "name": "Add Security to Watchlist",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "description": "Firebase JWT token for authentication"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"security_symbol\": \"AAPL\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", ""]
+            },
+            "description": "Add a new security to the user's watchlist. Requires the security symbol (e.g., AAPL, TSLA). Will return an error if the security is already in the watchlist or doesn't exist."
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Security from Watchlist",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "description": "Firebase JWT token for authentication"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/securities/TSLA/",
+              "raw": "{{base_url}}/api/watchlist/{{watchlist_item_id}}/",
               "host": ["{{base_url}}"],
-              "path": ["api", "securities", "TSLA", ""]
+              "path": ["api", "watchlist", "{{watchlist_item_id}}", ""]
             },
-            "description": "Example request to get Tesla Inc. (TSLA) detailed information."
+            "description": "Remove a specific security from the user's watchlist using the watchlist item ID. You can get the ID from the watchlist list endpoint."
           },
           "response": []
         }
       ],
-      "description": "Endpoints for managing and retrieving securities data"
+      "description": "Endpoints for managing user watchlists - add, remove, and view watchlist items"
     }
   ],
   "event": [
@@ -277,6 +326,18 @@
       "value": "AAPL",
       "type": "string",
       "description": "Stock symbol for security detail requests (e.g., AAPL, TSLA, MSFT)"
+    },
+    {
+      "key": "firebase_token",
+      "value": "your_firebase_jwt_token_here",
+      "type": "string",
+      "description": "Firebase JWT token for authentication. Get this from your Firebase client after user login."
+    },
+    {
+      "key": "watchlist_item_id",
+      "value": "1",
+      "type": "string",
+      "description": "ID of a watchlist item to delete. Get this from the watchlist list response."
     }
   ]
 }

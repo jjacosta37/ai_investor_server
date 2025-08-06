@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Security, SecurityFundamentals
+from .models import Security, SecurityFundamentals, WatchlistItem
 
 
 class SecurityFundamentalsSerializer(serializers.ModelSerializer):
@@ -127,3 +127,46 @@ class SecurityDetailSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+class WatchlistItemSerializer(serializers.ModelSerializer):
+    """Serializer for WatchlistItem model"""
+    
+    security = SecurityListSerializer(read_only=True)
+    security_symbol = serializers.CharField(write_only=True)
+    
+    class Meta:
+        model = WatchlistItem
+        fields = [
+            "id",
+            "security",
+            "security_symbol",
+            "added_at",
+        ]
+        read_only_fields = [
+            "id",
+            "added_at",
+        ]
+    
+    def create(self, validated_data):
+        """Create a new watchlist item"""
+        security_symbol = validated_data.pop('security_symbol')
+        user = self.context['request'].user
+        
+        try:
+            security = Security.objects.get(symbol__iexact=security_symbol, is_active=True)
+        except Security.DoesNotExist:
+            raise serializers.ValidationError(
+                {"security_symbol": f"Security with symbol '{security_symbol}' not found or is inactive."}
+            )
+        
+        # Check if already in watchlist
+        if WatchlistItem.objects.filter(user=user, security=security).exists():
+            raise serializers.ValidationError(
+                {"security_symbol": f"Security '{security_symbol}' is already in your watchlist."}
+            )
+        
+        validated_data['security'] = security
+        validated_data['user'] = user
+        
+        return super().create(validated_data)

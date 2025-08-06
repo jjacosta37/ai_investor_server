@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Q, Case, When, Value, IntegerField
-from .models import Security
-from .serializers import SecurityListSerializer, SecurityDetailSerializer
+from .models import Security, WatchlistItem
+from .serializers import SecurityListSerializer, SecurityDetailSerializer, WatchlistItemSerializer
 
 
 class SecurityListView(APIView):
@@ -103,3 +103,79 @@ class SecurityDetailView(APIView):
         security = self.get_object(symbol)
         serializer = SecurityDetailSerializer(security)
         return Response(serializer.data)
+
+
+class WatchlistItemListView(APIView):
+    """
+    List user's watchlist items or create a new one.
+    GET /api/watchlist/ - List all watchlist items for authenticated user
+    POST /api/watchlist/ - Add a new item to watchlist
+    """
+    
+    def get(self, request):
+        """Get all watchlist items for the authenticated user"""
+        if not request.user.is_authenticated:
+            return Response(
+                {"error": "Authentication required"}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        watchlist_items = WatchlistItem.objects.filter(
+            user=request.user
+        ).select_related('security', 'security__fundamentals').order_by('-added_at')
+        
+        serializer = WatchlistItemSerializer(watchlist_items, many=True)
+        return Response({
+            'count': len(serializer.data),
+            'results': serializer.data
+        })
+    
+    def post(self, request):
+        """Add a new item to user's watchlist"""
+        if not request.user.is_authenticated:
+            return Response(
+                {"error": "Authentication required"}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        serializer = WatchlistItemSerializer(
+            data=request.data,
+            context={'request': request}
+        )
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class WatchlistItemDetailView(APIView):
+    """
+    Delete a specific watchlist item.
+    DELETE /api/watchlist/{id}/ - Remove item from watchlist
+    """
+    
+    def get_object(self, pk, user):
+        """Get watchlist item by ID for the authenticated user"""
+        return get_object_or_404(
+            WatchlistItem.objects.select_related('security', 'security__fundamentals'),
+            pk=pk,
+            user=user
+        )
+    
+    def delete(self, request, pk):
+        """Remove item from user's watchlist"""
+        if not request.user.is_authenticated:
+            return Response(
+                {"error": "Authentication required"}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        watchlist_item = self.get_object(pk, request.user)
+        watchlist_item.delete()
+        
+        return Response(
+            {"message": "Item removed from watchlist successfully"},
+            status=status.HTTP_204_NO_CONTENT
+        )
