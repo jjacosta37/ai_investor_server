@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "firebase_auth",
     "securities",
+    "ai_agents",
 ]
 
 MIDDLEWARE = [
