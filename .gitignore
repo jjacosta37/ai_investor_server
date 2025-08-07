@@ -12,6 +12,7 @@ db.sqlite3-journal
 media
 local_settings.py
 aichat-template-firebase-adminsdk-fbsvc-c0135b0b07.json
+todo.txt
 
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/

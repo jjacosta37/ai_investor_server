@@ -50,11 +50,24 @@ class SecurityFundamentalsSerializer(serializers.ModelSerializer):
 
 
 class SecurityListSerializer(serializers.ModelSerializer):
-    """Serializer for security list view (minimal data)"""
+    """Serializer for security list view (with fundamentals data)"""
     
     current_price = serializers.SerializerMethodField()
+    previous_close = serializers.SerializerMethodField()
+    day_change = serializers.SerializerMethodField()
     day_change_percent = serializers.SerializerMethodField()
     market_cap = serializers.SerializerMethodField()
+    pe_ratio = serializers.SerializerMethodField()
+    eps = serializers.SerializerMethodField()
+    dividend_yield = serializers.SerializerMethodField()
+    volume = serializers.SerializerMethodField()
+    avg_volume = serializers.SerializerMethodField()
+    week_52_high = serializers.SerializerMethodField()
+    week_52_low = serializers.SerializerMethodField()
+    book_value = serializers.SerializerMethodField()
+    debt_to_equity = serializers.SerializerMethodField()
+    roe = serializers.SerializerMethodField()
+    news_summary = serializers.SerializerMethodField()
     
     class Meta:
         model = Security
@@ -64,8 +77,21 @@ class SecurityListSerializer(serializers.ModelSerializer):
             "security_type",
             "exchange",
             "current_price",
+            "previous_close",
+            "day_change",
             "day_change_percent",
             "market_cap",
+            "pe_ratio",
+            "eps",
+            "dividend_yield",
+            "volume",
+            "avg_volume",
+            "week_52_high",
+            "week_52_low",
+            "book_value",
+            "debt_to_equity",
+            "roe",
+            "news_summary",
             "logo_url",
             "is_active",
         ]
@@ -84,6 +110,18 @@ class SecurityListSerializer(serializers.ModelSerializer):
             return obj.fundamentals.current_price
         return None
     
+    def get_previous_close(self, obj):
+        """Get previous close from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.previous_close
+        return None
+    
+    def get_day_change(self, obj):
+        """Get day change from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.day_change
+        return None
+    
     def get_day_change_percent(self, obj):
         """Get day change percentage from fundamentals if available"""
         if hasattr(obj, 'fundamentals') and obj.fundamentals:
@@ -94,6 +132,72 @@ class SecurityListSerializer(serializers.ModelSerializer):
         """Get market cap from fundamentals if available"""
         if hasattr(obj, 'fundamentals') and obj.fundamentals:
             return obj.fundamentals.market_cap
+        return None
+    
+    def get_pe_ratio(self, obj):
+        """Get P/E ratio from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.pe_ratio
+        return None
+    
+    def get_eps(self, obj):
+        """Get EPS from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.eps
+        return None
+    
+    def get_dividend_yield(self, obj):
+        """Get dividend yield from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.dividend_yield
+        return None
+    
+    def get_volume(self, obj):
+        """Get volume from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.volume
+        return None
+    
+    def get_avg_volume(self, obj):
+        """Get average volume from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.avg_volume
+        return None
+    
+    def get_week_52_high(self, obj):
+        """Get 52-week high from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.week_52_high
+        return None
+    
+    def get_week_52_low(self, obj):
+        """Get 52-week low from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.week_52_low
+        return None
+    
+    def get_book_value(self, obj):
+        """Get book value from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.book_value
+        return None
+    
+    def get_debt_to_equity(self, obj):
+        """Get debt-to-equity ratio from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.debt_to_equity
+        return None
+    
+    def get_roe(self, obj):
+        """Get ROE from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.roe
+        return None
+    
+    def get_news_summary(self, obj):
+        """Get news summary from fundamentals if available"""
+        if hasattr(obj, 'fundamentals') and obj.fundamentals:
+            return obj.fundamentals.news_summary
         return None
 
 
