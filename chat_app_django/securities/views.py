@@ -122,7 +122,16 @@ class WatchlistItemListView(APIView):
         
         watchlist_items = WatchlistItem.objects.filter(
             user=request.user
-        ).select_related('security', 'security__fundamentals').order_by('-added_at')
+        ).select_related(
+            'security', 
+            'security__fundamentals',
+            'security__news_summary',
+            'security__news_summary__overall_sentiment'
+        ).prefetch_related(
+            'security__news_items',
+            'security__upcoming_events',
+            'security__news_summary__key_highlights'
+        ).order_by('-added_at')
         
         serializer = WatchlistItemSerializer(watchlist_items, many=True)
         return Response({
@@ -159,7 +168,16 @@ class WatchlistItemDetailView(APIView):
     def get_object(self, pk, user):
         """Get watchlist item by ID for the authenticated user"""
         return get_object_or_404(
-            WatchlistItem.objects.select_related('security', 'security__fundamentals'),
+            WatchlistItem.objects.select_related(
+                'security', 
+                'security__fundamentals',
+                'security__news_summary',
+                'security__news_summary__overall_sentiment'
+            ).prefetch_related(
+                'security__news_items',
+                'security__upcoming_events',
+                'security__news_summary__key_highlights'
+            ),
             pk=pk,
             user=user
         )

@@ -1,5 +1,117 @@
 from rest_framework import serializers
-from .models import Security, SecurityFundamentals, WatchlistItem
+from .models import (
+    Security, 
+    SecurityFundamentals, 
+    WatchlistItem,
+    OverallSentiment,
+    SecurityNewsSummary,
+    NewsItem,
+    UpcomingEvent,
+    KeyHighlight
+)
+
+
+class OverallSentimentSerializer(serializers.ModelSerializer):
+    """Serializer for OverallSentiment model"""
+    
+    class Meta:
+        model = OverallSentiment
+        fields = [
+            'sentiment',
+            'rationale', 
+            'confidence_level'
+        ]
+        read_only_fields = [
+            'sentiment',
+            'rationale', 
+            'confidence_level'
+        ]
+
+
+class KeyHighlightSerializer(serializers.ModelSerializer):
+    """Serializer for KeyHighlight model"""
+    
+    class Meta:
+        model = KeyHighlight
+        fields = [
+            'highlight',
+            'order'
+        ]
+        read_only_fields = [
+            'highlight',
+            'order'
+        ]
+
+
+class NewsItemSerializer(serializers.ModelSerializer):
+    """Serializer for NewsItem model"""
+    
+    class Meta:
+        model = NewsItem
+        fields = [
+            'headline',
+            'date',
+            'source', 
+            'url',
+            'impact_level',
+            'summary'
+        ]
+        read_only_fields = [
+            'headline',
+            'date',
+            'source', 
+            'url',
+            'impact_level',
+            'summary'
+        ]
+
+
+class UpcomingEventSerializer(serializers.ModelSerializer):
+    """Serializer for UpcomingEvent model"""
+    
+    class Meta:
+        model = UpcomingEvent
+        fields = [
+            'event',
+            'date',
+            'category',
+            'importance'
+        ]
+        read_only_fields = [
+            'event',
+            'date',
+            'category',
+            'importance'
+        ]
+
+
+class SecurityNewsSummarySerializer(serializers.ModelSerializer):
+    """Serializer for SecurityNewsSummary model"""
+    
+    overall_sentiment = OverallSentimentSerializer(read_only=True)
+    
+    class Meta:
+        model = SecurityNewsSummary
+        fields = [
+            'executive_summary',
+            'summary',
+            'positive_catalysts',
+            'risk_factors',
+            'overall_sentiment',
+            'key_metrics',
+            'disclaimer',
+            'updated_at'
+        ]
+        read_only_fields = [
+            'executive_summary',
+            'summary',
+            'positive_catalysts',
+            'risk_factors',
+            'overall_sentiment',
+            'key_metrics',
+            'disclaimer',
+            'updated_at'
+        ]
 
 
 class SecurityFundamentalsSerializer(serializers.ModelSerializer):
@@ -238,6 +350,10 @@ class WatchlistItemSerializer(serializers.ModelSerializer):
     
     security = SecurityListSerializer(read_only=True)
     security_symbol = serializers.CharField(write_only=True)
+    security_news_summary = serializers.SerializerMethodField()
+    latest_news = serializers.SerializerMethodField()
+    key_highlights = serializers.SerializerMethodField()
+    upcoming_events = serializers.SerializerMethodField()
     
     class Meta:
         model = WatchlistItem
@@ -246,6 +362,10 @@ class WatchlistItemSerializer(serializers.ModelSerializer):
             "security",
             "security_symbol",
             "added_at",
+            "security_news_summary",
+            "latest_news",
+            "key_highlights",
+            "upcoming_events",
         ]
         read_only_fields = [
             "id",
@@ -274,3 +394,26 @@ class WatchlistItemSerializer(serializers.ModelSerializer):
         validated_data['user'] = user
         
         return super().create(validated_data)
+    
+    def get_security_news_summary(self, obj):
+        """Get SecurityNewsSummary data for the security"""
+        if hasattr(obj.security, 'news_summary') and obj.security.news_summary:
+            return SecurityNewsSummarySerializer(obj.security.news_summary).data
+        return None
+    
+    def get_latest_news(self, obj):
+        """Get the 3 most recent news items for the security"""
+        latest_news = obj.security.news_items.all()[:3]
+        return NewsItemSerializer(latest_news, many=True).data
+    
+    def get_key_highlights(self, obj):
+        """Get key highlights for the security"""
+        if hasattr(obj.security, 'news_summary') and obj.security.news_summary:
+            highlights = obj.security.news_summary.key_highlights.all()
+            return KeyHighlightSerializer(highlights, many=True).data
+        return []
+    
+    def get_upcoming_events(self, obj):
+        """Get upcoming events for the security"""
+        events = obj.security.upcoming_events.all()
+        return UpcomingEventSerializer(events, many=True).data
