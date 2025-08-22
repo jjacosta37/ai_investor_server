@@ -9,6 +9,7 @@ from .models import (
     NewsItem,
     UpcomingEvent,
     OverallSentiment,
+    KeyHighlight,
 )
 
 admin.site.register(Security)
@@ -20,3 +21,4 @@ admin.site.register(SecurityNewsSummary)
 admin.site.register(NewsItem)
 admin.site.register(UpcomingEvent)
 admin.site.register(OverallSentiment)
+admin.site.register(KeyHighlight)
