@@ -33,6 +33,7 @@ class StockAnalysisService:
             self.tavily_search_tool = TavilySearch(
                 max_results=5,
                 topic="general",
+                include_favicon=True,
             )
 
             self.agent = create_react_agent(

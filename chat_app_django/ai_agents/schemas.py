@@ -15,9 +15,8 @@ class NewsItem(BaseModel):
     source: str = Field(description="Source of the news (e.g., Reuters, Bloomberg)")
     url: str = Field(description="URL link to the original news article")
     impact_level: str = Field(description="Impact assessment: High, Medium, or Low")
-    summary: str = Field(
-        description="Brief summary of the news and its implications"
-    )
+    summary: str = Field(description="Brief summary of the news and its implications")
+    favicon: str = Field(description="Favicon of the news source")
 
 
 class SentimentAnalysis(BaseModel):
@@ -75,6 +74,4 @@ class StructuredStockAnalysis(BaseModel):
     upcoming_events: List[UpcomingEvent] = Field(
         description="Upcoming catalysts and events to watch, categorized by type"
     )
-    disclaimer: str = Field(
-        description="Professional disclaimer about the analysis"
-    )
+    disclaimer: str = Field(description="Professional disclaimer about the analysis")
