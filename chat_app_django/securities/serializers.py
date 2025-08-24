@@ -53,6 +53,7 @@ class NewsItemSerializer(serializers.ModelSerializer):
             'date',
             'source', 
             'url',
+            'favicon',
             'impact_level',
             'summary'
         ]
@@ -61,6 +62,7 @@ class NewsItemSerializer(serializers.ModelSerializer):
             'date',
             'source', 
             'url',
+            'favicon',
             'impact_level',
             'summary'
         ]

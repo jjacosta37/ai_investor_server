@@ -318,6 +318,7 @@ class NewsItem(models.Model):
     date = models.DateField(help_text="Publication date of the news")
     source = models.CharField(max_length=100, help_text="News source name")
     url = models.URLField(help_text="URL to original article")
+    favicon = models.URLField(blank=True, help_text="Favicon URL of the news source")
 
     # Analysis fields
     impact_level = models.CharField(

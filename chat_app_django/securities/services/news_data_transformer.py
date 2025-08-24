@@ -157,6 +157,7 @@ class NewsDataTransformer:
                         date=parsed_date,
                         source=news_data.source,
                         url=news_data.url,
+                        favicon=news_data.favicon,
                         impact_level=news_data.impact_level,
                         summary=news_data.summary
                     )
