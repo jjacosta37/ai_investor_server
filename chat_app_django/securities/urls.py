@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SecurityListView, SecurityDetailView, WatchlistItemListView, WatchlistItemDetailView
+from .views import SecurityListView, SecurityDetailView, WatchlistItemListView, WatchlistItemDetailView, HoldingsListView
 
 app_name = "securities"
 
@@ -11,4 +11,7 @@ urlpatterns = [
     # Watchlist endpoints
     path("watchlist/", WatchlistItemListView.as_view(), name="watchlist-list"),
     path("watchlist/<int:pk>/", WatchlistItemDetailView.as_view(), name="watchlist-detail"),
+    
+    # Holdings endpoints
+    path("holdings/", HoldingsListView.as_view(), name="holdings-list"),
 ]

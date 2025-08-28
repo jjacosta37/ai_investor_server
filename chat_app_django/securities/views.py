@@ -3,8 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Q, Case, When, Value, IntegerField
-from .models import Security, WatchlistItem
-from .serializers import SecurityListSerializer, SecurityDetailSerializer, WatchlistItemSerializer
+from .models import Security, WatchlistItem, Holding
+from .serializers import SecurityListSerializer, SecurityDetailSerializer, WatchlistItemSerializer, HoldingWithCompositionSerializer
+from .services.portfolio_service import PortfolioService
 
 
 class SecurityListView(APIView):
@@ -197,3 +198,34 @@ class WatchlistItemDetailView(APIView):
             {"message": "Item removed from watchlist successfully"},
             status=status.HTTP_204_NO_CONTENT
         )
+
+
+class HoldingsListView(APIView):
+    """
+    List user's holdings with portfolio composition.
+    GET /api/holdings/ - List all holdings for authenticated user with portfolio percentages
+    """
+    
+    def get(self, request):
+        """Get all holdings for the authenticated user with portfolio composition"""
+        if not request.user.is_authenticated:
+            return Response(
+                {"error": "Authentication required"}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        # Get portfolio data from service
+        portfolio_data = PortfolioService.calculate_portfolio_composition(request.user)
+        
+        # Serialize holdings with composition data
+        serializer = HoldingWithCompositionSerializer(portfolio_data.holdings, many=True)
+        
+        # Return API response with portfolio summary and holdings
+        return Response({
+            'count': portfolio_data.summary.holdings_count,
+            'total_portfolio_value': portfolio_data.summary.total_portfolio_value,
+            'total_cost': portfolio_data.summary.total_cost,
+            'total_unrealized_gain_loss': portfolio_data.summary.total_unrealized_gain_loss,
+            'total_unrealized_gain_loss_percent': portfolio_data.summary.total_unrealized_gain_loss_percent,
+            'results': serializer.data
+        })

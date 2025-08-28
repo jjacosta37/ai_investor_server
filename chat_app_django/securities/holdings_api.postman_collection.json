@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "h1o2l3d4-i5n6-7890-gsab-cd1234567890",
+		"name": "Holdings API",
+		"description": "Collection for testing holdings endpoints in the Investment AI Chat App - Portfolio Composition API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get User Holdings Portfolio",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{firebase_token}}",
+						"type": "text",
+						"description": "Firebase JWT token for authentication"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/holdings/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"holdings",
+						""
+					]
+				},
+				"description": "Get all holdings for the authenticated user with portfolio composition percentages, current market values, unrealized gains/losses, and total portfolio metrics."
+			},
+			"response": [
+				{
+					"name": "Success Response - Portfolio with Holdings",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{firebase_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/holdings/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"holdings",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"count\": 3,\n    \"total_portfolio_value\": 25000.00,\n    \"total_cost\": 22000.00,\n    \"total_unrealized_gain_loss\": 3000.00,\n    \"total_unrealized_gain_loss_percent\": 13.64,\n    \"results\": [\n        {\n            \"id\": \"550e8400-e29b-41d4-a716-446655440001\",\n            \"security\": {\n                \"symbol\": \"AAPL\",\n                \"name\": \"Apple Inc.\",\n                \"security_type\": \"CS\",\n                \"exchange\": \"NASDAQ\",\n                \"current_price\": \"175.25\",\n                \"previous_close\": \"172.50\",\n                \"day_change\": \"2.75\",\n                \"day_change_percent\": \"1.59\",\n                \"market_cap\": 2750000000000,\n                \"pe_ratio\": \"28.5\",\n                \"dividend_yield\": \"0.52\",\n                \"logo_url\": \"https://example.com/aapl-logo.png\"\n            },\n            \"quantity\": \"100.000000\",\n            \"average_cost\": \"150.0000\",\n            \"total_cost\": \"15000.0000\",\n            \"current_value\": 17525.00,\n            \"unrealized_gain_loss\": 2525.00,\n            \"unrealized_gain_loss_percent\": 16.83,\n            \"portfolio_weight_percent\": 70.10,\n            \"first_purchase_date\": \"2023-06-15\",\n            \"last_updated\": \"2024-01-15T10:30:00Z\",\n            \"notes\": \"Core holding - long term investment\",\n            \"broker\": \"Fidelity\"\n        },\n        {\n            \"id\": \"550e8400-e29b-41d4-a716-446655440002\",\n            \"security\": {\n                \"symbol\": \"MSFT\",\n                \"name\": \"Microsoft Corporation\",\n                \"security_type\": \"CS\",\n                \"exchange\": \"NASDAQ\",\n                \"current_price\": \"375.80\",\n                \"previous_close\": \"372.10\",\n                \"day_change\": \"3.70\",\n                \"day_change_percent\": \"0.99\",\n                \"market_cap\": 2800000000000,\n                \"pe_ratio\": \"32.1\",\n                \"dividend_yield\": \"0.75\",\n                \"logo_url\": \"https://example.com/msft-logo.png\"\n            },\n            \"quantity\": \"15.000000\",\n            \"average_cost\": \"320.0000\",\n            \"total_cost\": \"4800.0000\",\n            \"current_value\": 5637.00,\n            \"unrealized_gain_loss\": 837.00,\n            \"unrealized_gain_loss_percent\": 17.44,\n            \"portfolio_weight_percent\": 22.55,\n            \"first_purchase_date\": \"2023-08-20\",\n            \"last_updated\": \"2024-01-15T10:30:00Z\",\n            \"notes\": \"Cloud growth play\",\n            \"broker\": \"Schwab\"\n        },\n        {\n            \"id\": \"550e8400-e29b-41d4-a716-446655440003\",\n            \"security\": {\n                \"symbol\": \"SPY\",\n                \"name\": \"SPDR S&P 500 ETF Trust\",\n                \"security_type\": \"ETF\",\n                \"exchange\": \"NYSE\",\n                \"current_price\": \"459.20\",\n                \"previous_close\": \"457.85\",\n                \"day_change\": \"1.35\",\n                \"day_change_percent\": \"0.29\",\n                \"market_cap\": null,\n                \"pe_ratio\": null,\n                \"dividend_yield\": \"1.35\",\n                \"logo_url\": \"https://example.com/spy-logo.png\"\n            },\n            \"quantity\": \"4.000000\",\n            \"average_cost\": \"450.0000\",\n            \"total_cost\": \"1800.0000\",\n            \"current_value\": 1836.80,\n            \"unrealized_gain_loss\": 36.80,\n            \"unrealized_gain_loss_percent\": 2.04,\n            \"portfolio_weight_percent\": 7.35,\n            \"first_purchase_date\": \"2023-12-01\",\n            \"last_updated\": \"2024-01-15T10:30:00Z\",\n            \"notes\": \"Diversification ETF\",\n            \"broker\": \"Fidelity\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "Success Response - Empty Portfolio",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{firebase_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/holdings/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"holdings",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"count\": 0,\n    \"total_portfolio_value\": 0,\n    \"total_cost\": 0,\n    \"total_unrealized_gain_loss\": 0,\n    \"total_unrealized_gain_loss_percent\": 0,\n    \"results\": []\n}"
+				},
+				{
+					"name": "Unauthorized - Missing Token",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/holdings/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"holdings",
+								""
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Authentication required\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Set default variables if not already set",
+					"if (!pm.environment.get('base_url')) {",
+					"    pm.environment.set('base_url', 'http://localhost:8000');",
+					"}",
+					"",
+					"// Add timestamp for debugging",
+					"pm.environment.set('timestamp', new Date().toISOString());",
+					"",
+					"console.log('Holdings API Request at:', pm.environment.get('timestamp'));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Common test scripts for all requests",
+					"pm.test('Response time is less than 3000ms', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+					"});",
+					"",
+					"pm.test('Response is valid JSON', function () {",
+					"    pm.response.to.be.json;",
+					"});",
+					"",
+					"// Test for successful response",
+					"if (pm.response.code === 200) {",
+					"    pm.test('Response has required portfolio fields', function () {",
+					"        const jsonData = pm.response.json();",
+					"        pm.expect(jsonData).to.have.property('count');",
+					"        pm.expect(jsonData).to.have.property('total_portfolio_value');",
+					"        pm.expect(jsonData).to.have.property('total_cost');",
+					"        pm.expect(jsonData).to.have.property('total_unrealized_gain_loss');",
+					"        pm.expect(jsonData).to.have.property('total_unrealized_gain_loss_percent');",
+					"        pm.expect(jsonData).to.have.property('results');",
+					"        pm.expect(jsonData.results).to.be.an('array');",
+					"    });",
+					"    ",
+					"    pm.test('Holdings have portfolio composition data', function () {",
+					"        const jsonData = pm.response.json();",
+					"        if (jsonData.count > 0) {",
+					"            const firstHolding = jsonData.results[0];",
+					"            pm.expect(firstHolding).to.have.property('portfolio_weight_percent');",
+					"            pm.expect(firstHolding).to.have.property('current_value');",
+					"            pm.expect(firstHolding).to.have.property('unrealized_gain_loss');",
+					"            pm.expect(firstHolding).to.have.property('unrealized_gain_loss_percent');",
+					"            pm.expect(firstHolding.security).to.have.property('symbol');",
+					"            pm.expect(firstHolding.security).to.have.property('current_price');",
+					"        }",
+					"    });",
+					"    ",
+					"    pm.test('Portfolio percentages sum to approximately 100%', function () {",
+					"        const jsonData = pm.response.json();",
+					"        if (jsonData.count > 0) {",
+					"            let totalPercentage = 0;",
+					"            jsonData.results.forEach(holding => {",
+					"                totalPercentage += holding.portfolio_weight_percent;",
+					"            });",
+					"            pm.expect(totalPercentage).to.be.closeTo(100, 0.1);",
+					"        }",
+					"    });",
+					"}",
+					"",
+					"// Set portfolio metrics as environment variables for potential use in other requests",
+					"if (pm.response.code === 200) {",
+					"    const jsonData = pm.response.json();",
+					"    pm.environment.set('total_portfolio_value', jsonData.total_portfolio_value);",
+					"    pm.environment.set('holdings_count', jsonData.count);",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string",
+			"description": "Base URL for the API"
+		},
+		{
+			"key": "firebase_token",
+			"value": "your_firebase_jwt_token_here",
+			"type": "string",
+			"description": "Firebase JWT token for authentication"
+		}
+	]
+}
