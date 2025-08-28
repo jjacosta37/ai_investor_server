@@ -10,8 +10,8 @@ from langchain.schema import HumanMessage
 from langgraph.prebuilt import create_react_agent
 from dotenv import load_dotenv
 
-from .prompts.prompts import structured_analysis_prompt
-from .schemas import StructuredStockAnalysis
+from ai_agents.prompts.structured_output_prompt import structured_analysis_prompt
+from ai_agents.schemas import StructuredStockAnalysis
 
 load_dotenv()
 
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 REACT_MODEL = "claude-sonnet-4-20250514"
 
 
-class StockAnalysisService:
+class StockAnalysisAgent:
     """Service class for getting structured stock analysis using Tavily search"""
 
     def __init__(self):
