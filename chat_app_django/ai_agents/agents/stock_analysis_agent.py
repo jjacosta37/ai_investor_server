@@ -11,7 +11,7 @@ from langgraph.prebuilt import create_react_agent
 from dotenv import load_dotenv
 
 from ai_agents.prompts.structured_output_prompt import structured_analysis_prompt
-from ai_agents.schemas import StructuredStockAnalysis
+from ai_agents.schemas.news_schemas import StructuredStockAnalysis
 
 load_dotenv()
 
