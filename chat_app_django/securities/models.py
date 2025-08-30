@@ -82,13 +82,40 @@ class SecurityFundamentals(models.Model):
     # Volume and trading data
     volume = models.BigIntegerField(null=True, blank=True)
     avg_volume = models.BigIntegerField(null=True, blank=True)
-
-    # 52-week data
-    week_52_high = models.DecimalField(
+    
+    # Daily price data
+    day_high = models.DecimalField(
         max_digits=12, decimal_places=4, null=True, blank=True
     )
-    week_52_low = models.DecimalField(
+    day_low = models.DecimalField(
         max_digits=12, decimal_places=4, null=True, blank=True
+    )
+    open_price = models.DecimalField(
+        max_digits=12, decimal_places=4, null=True, blank=True
+    )
+
+    # 52-week data
+    year_high = models.DecimalField(
+        max_digits=12, decimal_places=4, null=True, blank=True
+    )
+    year_low = models.DecimalField(
+        max_digits=12, decimal_places=4, null=True, blank=True
+    )
+    
+    # Moving averages
+    price_avg_50 = models.DecimalField(
+        max_digits=12, decimal_places=4, null=True, blank=True
+    )
+    price_avg_200 = models.DecimalField(
+        max_digits=12, decimal_places=4, null=True, blank=True
+    )
+    
+    # Exchange information
+    exchange_name = models.CharField(max_length=50, blank=True)
+    
+    # API timestamp
+    data_timestamp = models.BigIntegerField(
+        null=True, blank=True, help_text="Timestamp from API data source"
     )
 
     # News summary

@@ -112,8 +112,8 @@ class SecurityFundamentalsSerializer(serializers.ModelSerializer):
             "roe",
             "volume",
             "avg_volume",
-            "week_52_high",
-            "week_52_low",
+            "year_high",
+            "year_low",
             "news_summary",
             "news_summary_updated_at",
             "last_updated",
@@ -132,8 +132,8 @@ class SecurityFundamentalsSerializer(serializers.ModelSerializer):
             "roe",
             "volume",
             "avg_volume",
-            "week_52_high",
-            "week_52_low",
+            "year_high",
+            "year_low",
             "news_summary",
             "news_summary_updated_at",
             "last_updated",
@@ -153,8 +153,8 @@ class SecurityListSerializer(serializers.ModelSerializer):
     dividend_yield = serializers.SerializerMethodField()
     volume = serializers.SerializerMethodField()
     avg_volume = serializers.SerializerMethodField()
-    week_52_high = serializers.SerializerMethodField()
-    week_52_low = serializers.SerializerMethodField()
+    year_high = serializers.SerializerMethodField()
+    year_low = serializers.SerializerMethodField()
     book_value = serializers.SerializerMethodField()
     debt_to_equity = serializers.SerializerMethodField()
     roe = serializers.SerializerMethodField()
@@ -177,8 +177,8 @@ class SecurityListSerializer(serializers.ModelSerializer):
             "dividend_yield",
             "volume",
             "avg_volume",
-            "week_52_high",
-            "week_52_low",
+            "year_high",
+            "year_low",
             "book_value",
             "debt_to_equity",
             "roe",
@@ -255,16 +255,16 @@ class SecurityListSerializer(serializers.ModelSerializer):
             return obj.fundamentals.avg_volume
         return None
 
-    def get_week_52_high(self, obj):
+    def get_year_high(self, obj):
         """Get 52-week high from fundamentals if available"""
         if hasattr(obj, "fundamentals") and obj.fundamentals:
-            return obj.fundamentals.week_52_high
+            return obj.fundamentals.year_high
         return None
 
-    def get_week_52_low(self, obj):
+    def get_year_low(self, obj):
         """Get 52-week low from fundamentals if available"""
         if hasattr(obj, "fundamentals") and obj.fundamentals:
-            return obj.fundamentals.week_52_low
+            return obj.fundamentals.year_low
         return None
 
     def get_book_value(self, obj):

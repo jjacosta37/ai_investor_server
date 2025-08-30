@@ -32,9 +32,10 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # Polygon.io API key
 POLYGON_API_KEY = env("POLYGON_API_KEY")
+FMP_API_KEY = env("FMP_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 

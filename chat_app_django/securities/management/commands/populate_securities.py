@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from securities.models import Security
-from securities.services import get_polygon_service
+from securities.services.polygon_service import get_polygon_service
 import logging
 import time
 from typing import List, Dict, Any
