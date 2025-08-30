@@ -1,34 +1,14 @@
-from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
 import logging
 from polygon import RESTClient
 from django.conf import settings
 
+from .base_finance_service import FinanceBaseAPIService
+
 logger = logging.getLogger(__name__)
 
 
-class BaseAPIService(ABC):
-    """
-    Abstract base class for external API services.
-    """
-
-    @abstractmethod
-    def get_ticker_details(self, symbol: str) -> Optional[Dict[str, Any]]:
-        """Get detailed information about a ticker."""
-        pass
-
-    @abstractmethod
-    def get_quote(self, symbol: str) -> Optional[Dict[str, Any]]:
-        """Get current quote for a ticker."""
-        pass
-
-    @abstractmethod
-    def search_tickers(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
-        """Search for tickers matching query."""
-        pass
-
-
-class PolygonAPIService(BaseAPIService):
+class PolygonAPIService(FinanceBaseAPIService):
     """
     Polygon.io API service implementation.
     """
