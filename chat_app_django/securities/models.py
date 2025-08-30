@@ -60,7 +60,6 @@ class SecurityFundamentals(models.Model):
     current_price = models.DecimalField(max_digits=12, decimal_places=4, null=True)
     previous_close = models.DecimalField(max_digits=12, decimal_places=4, null=True)
     day_change = models.DecimalField(max_digits=10, decimal_places=4, null=True)
-    day_change_percent = models.DecimalField(max_digits=6, decimal_places=2, null=True)
 
     # Fundamental metrics
     market_cap = models.BigIntegerField(null=True, blank=True)
@@ -131,6 +130,22 @@ class SecurityFundamentals(models.Model):
 
     def __str__(self):
         return f"Fundamentals for {self.security.symbol}"
+    
+    @property
+    def day_change_percent(self):
+        """
+        Calculate day change percentage based on current_price and previous_close.
+        Returns: Decimal percentage or None if calculation isn't possible.
+        """
+        if (self.current_price is not None and 
+            self.previous_close is not None and 
+            self.previous_close != 0):
+            try:
+                change_decimal = (self.current_price - self.previous_close) / self.previous_close
+                return round(change_decimal * 100, 2)
+            except (TypeError, ZeroDivisionError):
+                return None
+        return None
 
 
 # class SmartWatchlist(models.Model):

@@ -234,11 +234,11 @@ class Command(BaseCommand):
                 return None
 
         # Prepare the data for SecurityFundamentals
+        # Note: day_change_percent is now calculated automatically by the model property
         fundamentals_data = {
             'current_price': to_decimal(quote_data.get('price')),
             'previous_close': to_decimal(quote_data.get('previousClose')),
             'day_change': to_decimal(quote_data.get('change')),
-            'day_change_percent': to_decimal(quote_data.get('changesPercentage')),
             'market_cap': to_int(quote_data.get('marketCap')),
             'volume': to_int(quote_data.get('volume')),
             'avg_volume': to_int(quote_data.get('avgVolume')),
