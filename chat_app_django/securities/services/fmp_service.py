@@ -50,8 +50,62 @@ class FinancialModelingPrepService(FinanceBaseAPIService):
             return None
 
     def get_ticker_details(self, symbol: str) -> Optional[Dict[str, Any]]:
-        """Get detailed information about a ticker."""
-        raise NotImplementedError("Method to be implemented later")
+        """
+        Get detailed company profile information from Financial Modeling Prep.
+        
+        Args:
+            symbol: Stock symbol (e.g., 'AAPL')
+            
+        Returns:
+            Dict containing comprehensive company profile data or None if not found
+        """
+        try:
+            data = self._make_request(f"profile?symbol={symbol}")
+            if not data or len(data) == 0:
+                return None
+                
+            profile = data[0]  # FMP returns profile data as a list with one item
+            return {
+                "symbol": profile.get("symbol"),
+                "companyName": profile.get("companyName"),
+                "price": profile.get("price"),
+                "marketCap": profile.get("marketCap"),
+                "beta": profile.get("beta"),
+                "lastDividend": profile.get("lastDividend"),
+                "range": profile.get("range"),
+                "change": profile.get("change"),
+                "changePercentage": profile.get("changePercentage"),
+                "volume": profile.get("volume"),
+                "averageVolume": profile.get("averageVolume"),
+                "currency": profile.get("currency"),
+                "cik": profile.get("cik"),
+                "isin": profile.get("isin"),
+                "cusip": profile.get("cusip"),
+                "exchangeFullName": profile.get("exchangeFullName"),
+                "exchange": profile.get("exchange"),
+                "industry": profile.get("industry"),
+                "website": profile.get("website"),
+                "description": profile.get("description"),
+                "ceo": profile.get("ceo"),
+                "sector": profile.get("sector"),
+                "country": profile.get("country"),
+                "fullTimeEmployees": profile.get("fullTimeEmployees"),
+                "phone": profile.get("phone"),
+                "address": profile.get("address"),
+                "city": profile.get("city"),
+                "state": profile.get("state"),
+                "zip": profile.get("zip"),
+                "image": profile.get("image"),
+                "ipoDate": profile.get("ipoDate"),
+                "defaultImage": profile.get("defaultImage"),
+                "isEtf": profile.get("isEtf"),
+                "isActivelyTrading": profile.get("isActivelyTrading"),
+                "isAdr": profile.get("isAdr"),
+                "isFund": profile.get("isFund")
+            }
+        except Exception as e:
+            logger.error(f"Error fetching company profile for {symbol}: {str(e)}")
+            return None
 
     def get_quote(self, symbol: str) -> Optional[Dict[str, Any]]:
         """
