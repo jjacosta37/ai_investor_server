@@ -1,0 +1,39 @@
+[Unit]
+Description=Update Active Stock Fundamentals
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=www-data
+Group=www-data
+WorkingDirectory=/path/to/your/chat_app_server/chat_app_django
+Environment=DJANGO_SETTINGS_MODULE=chat_app_django.settings
+Environment=PATH=/path/to/your/venv/bin:/usr/local/bin:/usr/bin:/bin
+
+# Command to run - update this path to match your setup
+ExecStart=/path/to/your/venv/bin/python manage.py update_active_fundamentals --rate-limit 250
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=update-fundamentals
+
+# Security settings
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/path/to/your/chat_app_server/chat_app_django
+
+# Restart policy for failures
+Restart=no
+RestartSec=30
+
+# Timeout settings
+TimeoutStartSec=600
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
